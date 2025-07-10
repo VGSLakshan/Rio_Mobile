@@ -1,10 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrollOpacity, setScrollOpacity] = useState(1);
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset;
+      const viewportHeight = window.innerHeight;
+      const videoSectionHeight = viewportHeight; // Assuming hero video is 100vh
+      
+      // Hide navbar when it reaches the end of hero video
+      if (scrollTop >= videoSectionHeight - 80) { // 80px offset for smooth transition
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+        
+        // Opacity effect while still in video section
+        const maxScroll = 300;
+        const minOpacity = 0.7;
+        const opacity = Math.max(minOpacity, 1 - (scrollTop / maxScroll) * (1 - minOpacity));
+        setScrollOpacity(opacity);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <nav className="bg-gradient-to-r from-black via-gray-900 to-green-900 shadow-2xl sticky top-0 z-50 backdrop-blur-sm">
+    <nav 
+      className={`bg-gradient-to-r from-black via-gray-900 to-green-900 shadow-2xl sticky top-0 z-50 backdrop-blur-sm transition-all duration-500 ${
+        isVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+      }`}
+      style={{ opacity: isVisible ? scrollOpacity : 0 }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
