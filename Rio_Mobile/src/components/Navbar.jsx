@@ -66,18 +66,18 @@ function Navbar() {
               >
                 🏠 Home
               </a>
-              <a
-                href="#"
+              <Link
+                to="/products"
                 className="text-white hover:text-green-300 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-green-500/20 hover:scale-105 hover:shadow-lg transform"
               >
                 📱 Products
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                to="/about"
                 className="text-white hover:text-green-300 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-green-500/20 hover:scale-105 hover:shadow-lg transform"
               >
                 ℹ️ About
-              </a>
+              </Link>
               <Link
                 to="/contact"
                 className="text-white hover:text-green-300 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-green-500/20 hover:scale-105 hover:shadow-lg transform"
@@ -135,18 +135,18 @@ function Navbar() {
               >
                 🏠 Home
               </a>
-              <a
-                href="#"
+              <Link
+                to="/products"
                 className="text-white hover:text-green-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300"
               >
                 📱 Products
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                to="/about"
                 className="text-white hover:text-green-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300"
               >
                 ℹ️ About
-              </a>
+              </Link>
               <Link
                 to="/contact"
                 className="text-white hover:text-green-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300"
