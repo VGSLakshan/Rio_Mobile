@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, Link } from "react-router-dom";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,34 +11,35 @@ function Navbar() {
     const handleScroll = () => {
       const scrollTop = window.pageYOffset;
       const viewportHeight = window.innerHeight;
-      const videoSectionHeight = viewportHeight; // Assuming hero video is 100vh
-      
-      // Hide navbar when it reaches the end of hero video
-      if (scrollTop >= videoSectionHeight - 80) { // 80px offset for smooth transition
+      const videoSectionHeight = viewportHeight;
+
+      if (scrollTop >= videoSectionHeight - 80) {
         setIsVisible(false);
       } else {
         setIsVisible(true);
-        
-        // Opacity effect while still in video section
+
         const maxScroll = 300;
         const minOpacity = 0.7;
-        const opacity = Math.max(minOpacity, 1 - (scrollTop / maxScroll) * (1 - minOpacity));
+        const opacity = Math.max(
+          minOpacity,
+          1 - (scrollTop / maxScroll) * (1 - minOpacity)
+        );
         setScrollOpacity(opacity);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleGetStarted = () => {
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
-    <nav 
+    <nav
       className={`bg-gradient-to-r from-black via-gray-900 to-green-900 shadow-2xl sticky top-0 z-50 backdrop-blur-sm transition-all duration-500 ${
-        isVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+        isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
       }`}
       style={{ opacity: isVisible ? scrollOpacity : 0 }}
     >
@@ -78,15 +78,16 @@ function Navbar() {
               >
                 ℹ️ About
               </a>
-              <a
-                href="#"
+              <Link
+                to="/contact"
                 className="text-white hover:text-green-300 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-green-500/20 hover:scale-105 hover:shadow-lg transform"
               >
                 📞 Contact
-              </a>
-              <button 
-               onClick={handleGetStarted}
-               className="bg-gradient-to-r from-green-500 to-green-700 text-white px-6 py-2 rounded-full font-semibold hover:from-green-600 hover:to-green-800 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+              </Link>
+              <button
+                onClick={handleGetStarted}
+                className="bg-gradient-to-r from-green-500 to-green-700 text-white px-6 py-2 rounded-full font-semibold hover:from-green-600 hover:to-green-800 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
                 Get Started
               </button>
             </div>
@@ -146,13 +147,16 @@ function Navbar() {
               >
                 ℹ️ About
               </a>
-              <a
-                href="#"
+              <Link
+                to="/contact"
                 className="text-white hover:text-green-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300"
               >
                 📞 Contact
-              </a>
-              <button className="w-full mt-2 bg-gradient-to-r from-green-500 to-green-700 text-white px-4 py-2 rounded-full font-semibold hover:from-green-600 hover:to-green-800 transition-all duration-300">
+              </Link>
+              <button
+                onClick={handleGetStarted}
+                className="w-full mt-2 bg-gradient-to-r from-green-500 to-green-700 text-white px-4 py-2 rounded-full font-semibold hover:from-green-600 hover:to-green-800 transition-all duration-300"
+              >
                 Get Started
               </button>
             </div>

@@ -1,14 +1,15 @@
 import React from "react";
 import heroVideoMp4 from "../assets/videos/hero-video.mp4";
 import heroVideo2Mp4 from "../assets/videos/hero-video2.mp4";
+import s25 from "../assets/images/s25.jpg";
 
 // Sample mobile phone data
 const mobilePhones = [
   {
     id: 1,
-    name: "Rio X Pro",
-    price: "$999",
-    image: "/images/phone1.jpg",
+    name: "Samsung S25 Ultra",
+    price: "Rs.264,990.00",
+    image: s25,
     specs: ["6.7'' OLED Display", "108MP Camera", "5000mAh Battery", "12GB RAM"],
     colors: ["Black", "Green", "Silver"]
   },
@@ -132,8 +133,22 @@ function HomeMain() {
                 className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-2xl border border-green-500/20 group"
               >
                 {/* Phone Image */}
-                <div className="bg-gray-700 rounded-xl h-64 mb-6 flex items-center justify-center relative overflow-hidden">
-                  <div className="text-6xl text-green-400">📱</div>
+                 <div className="bg-gray-700 rounded-xl h-64 mb-6 flex items-center justify-center relative overflow-hidden">
+                  {phone.image ? (
+                    <img 
+                      src={phone.image} 
+                      alt={phone.name}
+                      className="w-full h-full object-cover rounded-xl hover:scale-110 transition-transform duration-300"
+                      onError={(e) => {
+                        // Fallback to emoji if image fails to load
+                        e.target.style.display = 'none';
+                        e.target.nextElementSibling.style.display = 'flex';
+                      }}
+                    />
+                  ) : null}
+                  <div className="text-6xl text-green-400 absolute inset-0 flex items-center justify-center" style={{display: phone.image ? 'none' : 'flex'}}>
+                    📱
+                  </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
 
@@ -141,7 +156,7 @@ function HomeMain() {
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <h3 className="text-xl font-bold text-white">{phone.name}</h3>
-                    <span className="text-2xl font-bold text-green-400">{phone.price}</span>
+                    <span className="text-l font-bold text-green-400">{phone.price}</span>
                   </div>
 
                   {/* Specifications */}

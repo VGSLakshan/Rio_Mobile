@@ -21,6 +21,10 @@ function Signup() {
     e.preventDefault();
     // Handle signup logic here
     console.log("Signup attempt:", formData);
+    axios
+      .post("http://localhost:5000/api/users/signup", formData)
+      .then(result  => console.log(result.data))
+      .catch(err => console.error(err));
   };
 
   return (
