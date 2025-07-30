@@ -69,7 +69,7 @@ function Navbar() {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               <a
-                href="#"
+                href="/"
                 className="text-white hover:text-green-300 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-green-500/20 hover:scale-105 hover:shadow-lg transform"
               >
                 Home
@@ -92,12 +92,6 @@ function Navbar() {
               >
                 Contact
               </Link>
-              <button
-                onClick={handleGetStarted}
-                className="bg-gradient-to-r from-green-500 to-green-700 text-white px-6 py-2 rounded-full font-semibold hover:from-green-600 hover:to-green-800 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-              >
-                Get Started
-              </button>
             </div>
           </div>
 
@@ -132,44 +126,6 @@ function Navbar() {
             </button>
           </div>
         </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-black/20 rounded-lg backdrop-blur-sm mt-2">
-              <a
-                href="#"
-                className="text-white hover:text-green-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300"
-              >
-                🏠 Home
-              </a>
-              <Link
-                to="/products"
-                className="text-white hover:text-green-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300"
-              >
-                📱 Products
-              </Link>
-              <Link
-                to="/about"
-                className="text-white hover:text-green-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300"
-              >
-                ℹ️ About
-              </Link>
-              <Link
-                to="/contact"
-                className="text-white hover:text-green-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300"
-              >
-                📞 Contact
-              </Link>
-              <button
-                onClick={handleGetStarted}
-                className="w-full mt-2 bg-gradient-to-r from-green-500 to-green-700 text-white px-4 py-2 rounded-full font-semibold hover:from-green-600 hover:to-green-800 transition-all duration-300"
-              >
-                Get Started
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     </nav>
   );

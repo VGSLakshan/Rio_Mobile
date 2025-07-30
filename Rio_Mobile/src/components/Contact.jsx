@@ -1,52 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+// Import your contact image
+import contactImage from "../assets/images/contact.jpg"; // Add your contact image here
+import Navbar from "./Navbar";
 
 function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
-  });
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Contact form submitted:", formData);
-    // You can add API call here to send the message
-    alert("Thank you for your message! We'll get back to you soon.");
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-green-900">
+      {/* Navbar */}
+      <Navbar />
+
       {/* Back to Home Link */}
       <div className="container mx-auto px-4 pt-8">
-        <Link
-          to="/"
-          className="inline-flex items-center text-green-400 hover:text-green-300 transition-colors duration-300"
-        >
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M10 19l-7-7m0 0l7-7m-7 7h18"
-            />
-          </svg>
-          Back to Home
-        </Link>
+        
       </div>
 
       <div className="container mx-auto px-4 py-12">
@@ -201,118 +167,135 @@ function Contact() {
                 </a>
               </div>
             </div>
+
+            {/* WhatsApp Contact Button */}
+            <div className="mt-8 pt-8 border-t border-gray-700">
+              <h3 className="text-lg font-semibold text-white mb-4">
+                Quick Contact
+              </h3>
+              <button
+                onClick={() => {
+                  const phoneNumber = "94764845882";
+                  const message =
+                    "Hello Rio Mobile! I would like to get more information about your services.";
+                  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+                    message
+                  )}`;
+                  window.open(whatsappUrl, "_blank");
+                }}
+                className="w-full bg-green-500 hover:bg-green-600 text-white py-4 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center space-x-3"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.905 3.488" />
+                </svg>
+                <span>Chat with us on WhatsApp</span>
+              </button>
+            </div>
           </div>
 
-          {/* Contact Form */}
+          {/* Contact Image Section */}
           <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-green-500/20">
-            <h2 className="text-3xl font-bold text-white mb-8">
-              Send us a Message
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">
+              Visit Our Store
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-gray-300 mb-2"
-                  >
-                    Your Name
-                  </label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300"
-                    placeholder="Enter your name"
-                  />
-                </div>
+            {/* Image Container */}
+            <div className="relative overflow-hidden rounded-2xl h-96 mb-6 group">
+              <img
+                src={contactImage}
+                alt="Rio Mobile Store"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                onError={(e) => {
+                  // Fallback to a placeholder if image fails to load
+                  e.target.src =
+                    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80";
+                }}
+              />
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
 
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="block text-sm font-medium text-gray-300 mb-2"
-                  >
-                    Phone Number
-                  </label>
-                  <input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300"
-                    placeholder="Enter your phone"
-                  />
-                </div>
+              {/* Store Info Overlay */}
+              <div className="absolute bottom-6 left-6 right-6">
+                <h3 className="text-2xl font-bold text-white mb-2">
+                  Rio Mobile Store
+                </h3>
+                <p className="text-green-400 text-lg">
+                  Your trusted mobile technology partner
+                </p>
+              </div>
+            </div>
+
+            {/* Store Features */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="bg-gray-800/50 rounded-xl p-4 text-center border border-green-500/20">
+                <div className="text-3xl mb-2">📱</div>
+                <h4 className="text-white font-semibold">Latest Devices</h4>
+                <p className="text-gray-400 text-sm">
+                  Premium smartphones & accessories
+                </p>
               </div>
 
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-300 mb-2"
+              <div className="bg-gray-800/50 rounded-xl p-4 text-center border border-green-500/20">
+                <div className="text-3xl mb-2">🔧</div>
+                <h4 className="text-white font-semibold">Expert Service</h4>
+                <p className="text-gray-400 text-sm">
+                  Professional repair & support
+                </p>
+              </div>
+
+              <div className="bg-gray-800/50 rounded-xl p-4 text-center border border-green-500/20">
+                <div className="text-3xl mb-2">🛡️</div>
+                <h4 className="text-white font-semibold">Warranty</h4>
+                <p className="text-gray-400 text-sm">
+                  Comprehensive protection plans
+                </p>
+              </div>
+
+              <div className="bg-gray-800/50 rounded-xl p-4 text-center border border-green-500/20">
+                <div className="text-3xl mb-2">⚡</div>
+                <h4 className="text-white font-semibold">Fast Service</h4>
+                <p className="text-gray-400 text-sm">
+                  Quick solutions & delivery
+                </p>
+              </div>
+            </div>
+
+            {/* Call to Action */}
+            <div className="text-center">
+              <h3 className="text-xl font-semibold text-white mb-4">
+                Experience Rio Mobile Today
+              </h3>
+              <p className="text-gray-300 mb-6">
+                Visit our store to explore the latest mobile technology and get
+                personalized assistance from our expert team.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  to="/"
+                  className="flex-1 bg-gradient-to-r from-green-500 to-green-700 text-white py-3 px-6 rounded-xl font-semibold hover:from-green-600 hover:to-green-800 transition-all duration-300 transform hover:scale-105 text-center"
                 >
-                  Email Address
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300"
-                  placeholder="Enter your email"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="subject"
-                  className="block text-sm font-medium text-gray-300 mb-2"
+                  Browse Products
+                </Link>
+                <button
+                  onClick={() => {
+                    const phoneNumber = "94764845882";
+                    const message =
+                      "Hello! I'd like to visit your store. What are your current hours?";
+                    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+                      message
+                    )}`;
+                    window.open(whatsappUrl, "_blank");
+                  }}
+                  className="flex-1 border-2 border-green-500 text-green-400 py-3 px-6 rounded-xl font-semibold hover:bg-green-500 hover:text-black transition-all duration-300 transform hover:scale-105"
                 >
-                  Subject
-                </label>
-                <input
-                  id="subject"
-                  name="subject"
-                  type="text"
-                  required
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300"
-                  placeholder="What's this about?"
-                />
+                  Plan Visit
+                </button>
               </div>
-
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-gray-300 mb-2"
-                >
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows="5"
-                  required
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300 resize-none"
-                  placeholder="Tell us how we can help you..."
-                ></textarea>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-gradient-to-r from-green-500 to-green-700 text-white py-3 px-6 rounded-xl font-semibold hover:from-green-600 hover:to-green-800 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-              >
-                Send Message
-              </button>
-            </form>
+            </div>
           </div>
         </div>
       </div>
