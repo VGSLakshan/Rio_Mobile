@@ -1,9 +1,22 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function AdminHeader({ toggleSidebar }) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Clear admin session data
+    localStorage.removeItem("isAdminLoggedIn");
+    localStorage.removeItem("adminEmail");
+
+    // Show logout confirmation
+    console.log("🚪 Admin logged out successfully");
+
+    // Navigate to login page
+    navigate("/login");
+  };
 
   const notifications = [
     {
@@ -46,7 +59,7 @@ function AdminHeader({ toggleSidebar }) {
   };
 
   return (
-    <header className="bg-white/5 backdrop-blur-sm border-b border-green-500/20 px-6 py-4 lg:ml-64">
+    <header className="bg-white/5 backdrop-blur-sm border-b border-green-500/20 px-6 py-4  ">
       <div className="flex items-center justify-between">
         {/* Left Section - Menu Toggle + Breadcrumb */}
         <div className="flex items-center space-x-4">
@@ -302,7 +315,10 @@ function AdminHeader({ toggleSidebar }) {
 
                   <div className="border-t border-gray-700 my-2"></div>
 
-                  <button className="flex items-center space-x-3 px-4 py-3 text-red-400 hover:bg-red-600/10 hover:text-red-300 rounded-lg transition-colors w-full">
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center space-x-3 px-4 py-3 text-red-400 hover:bg-red-600/10 hover:text-red-300 rounded-lg transition-colors w-full"
+                  >
                     <svg
                       className="w-5 h-5"
                       fill="none"

@@ -80,31 +80,6 @@ function AdminDashboard() {
 
   return (
     <div className="space-y-8">
-      {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-white mb-2">
-            Dashboard Overview
-          </h1>
-          <p className="text-gray-400">
-            Welcome back! Here's what's happening at Rio Mobile today.
-          </p>
-        </div>
-        <div className="mt-4 md:mt-0 flex space-x-3">
-          <Link
-            to="/admin/orders"
-            className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200"
-          >
-            View Orders
-          </Link>
-          <Link
-            to="/admin/products/add"
-            className="px-4 py-2 border border-green-500 text-green-400 hover:bg-green-500 hover:text-black rounded-lg transition-colors duration-200"
-          >
-            Add Product
-          </Link>
-        </div>
-      </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -225,95 +200,6 @@ function AdminDashboard() {
               <p className="text-gray-400 mt-2">Great performance!</p>
             </div>
             <span className="text-4xl">📈</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Recent Orders & Low Stock */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        {/* Recent Orders */}
-        <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-green-500/20">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-white">Recent Orders</h2>
-            <Link
-              to="/admin/orders"
-              className="text-green-400 hover:text-green-300 text-sm font-medium transition-colors"
-            >
-              View All →
-            </Link>
-          </div>
-
-          <div className="space-y-4">
-            {recentOrders.map((order) => (
-              <div
-                key={order.id}
-                className="flex items-center justify-between p-4 bg-gray-700/30 rounded-xl"
-              >
-                <div className="flex-1">
-                  <div className="flex items-center justify-between mb-2">
-                    <p className="font-semibold text-white">{order.id}</p>
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(
-                        order.status
-                      )}`}
-                    >
-                      {order.status.charAt(0).toUpperCase() +
-                        order.status.slice(1)}
-                    </span>
-                  </div>
-                  <p className="text-gray-300 text-sm">{order.customer}</p>
-                  <p className="text-gray-400 text-sm">{order.product}</p>
-                  <div className="flex items-center justify-between mt-2">
-                    <p className="text-green-400 font-semibold">
-                      {formatCurrency(order.amount)}
-                    </p>
-                    <p className="text-gray-500 text-xs">{order.date}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Low Stock Alerts */}
-        <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-green-500/20">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-white">Low Stock Alerts</h2>
-            <Link
-              to="/admin/inventory"
-              className="text-green-400 hover:text-green-300 text-sm font-medium transition-colors"
-            >
-              Manage Inventory →
-            </Link>
-          </div>
-
-          <div className="space-y-4">
-            {lowStockProducts.map((product, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between p-4 bg-red-500/10 border border-red-500/20 rounded-xl"
-              >
-                <div className="flex-1">
-                  <p className="font-semibold text-white">{product.name}</p>
-                  <div className="flex items-center mt-2">
-                    <div className="flex-1 bg-gray-700 rounded-full h-2 mr-3">
-                      <div
-                        className="bg-red-500 h-2 rounded-full"
-                        style={{
-                          width: `${
-                            (product.stock / product.threshold) * 100
-                          }%`,
-                        }}
-                      ></div>
-                    </div>
-                    <span className="text-red-400 text-sm font-medium">
-                      {product.stock}/{product.threshold}
-                    </span>
-                  </div>
-                </div>
-                <span className="text-2xl ml-4">⚠️</span>
-              </div>
-            ))}
           </div>
         </div>
       </div>

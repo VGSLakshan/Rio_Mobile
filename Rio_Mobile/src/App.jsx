@@ -8,6 +8,8 @@ import Contact from "./components/Contact";
 import About from "./components/About";
 import Products from "./components/Products";
 import AdminPage from "./pages/AdminPage";
+import Services from "./components/Services";
+import AdminProducts from "./components/admin/AdminProducts";
 
 function App() {
   return (
@@ -28,7 +30,9 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/services" element={<Services />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/products" element={<AdminProducts />} />
         </Routes>
       </div>
     </Router>

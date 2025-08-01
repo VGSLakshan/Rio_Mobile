@@ -92,6 +92,12 @@ function Navbar() {
               >
                 Contact
               </Link>
+              <Link
+                to="/services"
+                className="text-white hover:text-green-300 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-green-500/20 hover:scale-105 hover:shadow-lg transform"
+              >
+                Services
+              </Link>
             </div>
           </div>
 

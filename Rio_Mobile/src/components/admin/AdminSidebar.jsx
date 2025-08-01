@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function AdminSidebar({ isOpen, toggleSidebar }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const [expandedMenus, setExpandedMenus] = useState({});
 
   const toggleSubMenu = (menuId) => {
@@ -10,6 +11,18 @@ function AdminSidebar({ isOpen, toggleSidebar }) {
       ...prev,
       [menuId]: !prev[menuId],
     }));
+  };
+
+  const handleLogout = () => {
+    // Clear admin session data
+    localStorage.removeItem("isAdminLoggedIn");
+    localStorage.removeItem("adminEmail");
+
+    // Show logout confirmation
+    console.log("🚪 Admin logged out successfully");
+
+    // Navigate to login page
+    navigate("/adminn");
   };
 
   const menuItems = [
@@ -28,120 +41,16 @@ function AdminSidebar({ isOpen, toggleSidebar }) {
       subItems: [
         { title: "All Products", path: "/admin/products", icon: "📋" },
         { title: "Add Product", path: "/admin/products/add", icon: "➕" },
-        { title: "Categories", path: "/admin/products/categories", icon: "🏷️" },
-        { title: "Brands", path: "/admin/products/brands", icon: "🏢" },
       ],
     },
     {
-      id: "orders",
-      title: "Orders",
+      id: "Admins",
+      title: "Admins",
       icon: "📦",
       hasSubMenu: true,
       subItems: [
-        { title: "All Orders", path: "/admin/orders", icon: "📋" },
-        { title: "Pending Orders", path: "/admin/orders/pending", icon: "⏳" },
-        {
-          title: "Completed Orders",
-          path: "/admin/orders/completed",
-          icon: "✅",
-        },
-        {
-          title: "Cancelled Orders",
-          path: "/admin/orders/cancelled",
-          icon: "❌",
-        },
-      ],
-    },
-    {
-      id: "customers",
-      title: "Customers",
-      icon: "👥",
-      hasSubMenu: true,
-      subItems: [
-        { title: "All Customers", path: "/admin/customers", icon: "📋" },
-        {
-          title: "Customer Reviews",
-          path: "/admin/customers/reviews",
-          icon: "⭐",
-        },
-        {
-          title: "Customer Support",
-          path: "/admin/customers/support",
-          icon: "🎧",
-        },
-      ],
-    },
-    {
-      id: "inventory",
-      title: "Inventory",
-      icon: "📊",
-      hasSubMenu: true,
-      subItems: [
-        { title: "Stock Overview", path: "/admin/inventory", icon: "📈" },
-        {
-          title: "Low Stock Alerts",
-          path: "/admin/inventory/low-stock",
-          icon: "⚠️",
-        },
-        {
-          title: "Stock Movement",
-          path: "/admin/inventory/movement",
-          icon: "🔄",
-        },
-      ],
-    },
-    {
-      id: "analytics",
-      title: "Analytics",
-      icon: "📈",
-      hasSubMenu: true,
-      subItems: [
-        { title: "Sales Report", path: "/admin/analytics/sales", icon: "💰" },
-        {
-          title: "Product Performance",
-          path: "/admin/analytics/products",
-          icon: "📊",
-        },
-        {
-          title: "Customer Analytics",
-          path: "/admin/analytics/customers",
-          icon: "👤",
-        },
-      ],
-    },
-    {
-      id: "marketing",
-      title: "Marketing",
-      icon: "📢",
-      hasSubMenu: true,
-      subItems: [
-        {
-          title: "Promotions",
-          path: "/admin/marketing/promotions",
-          icon: "🎯",
-        },
-        { title: "Discounts", path: "/admin/marketing/discounts", icon: "💸" },
-        {
-          title: "Email Campaigns",
-          path: "/admin/marketing/emails",
-          icon: "📧",
-        },
-      ],
-    },
-    {
-      id: "settings",
-      title: "Settings",
-      icon: "⚙️",
-      hasSubMenu: true,
-      subItems: [
-        { title: "General Settings", path: "/admin/settings", icon: "🔧" },
-        { title: "User Management", path: "/admin/settings/users", icon: "👤" },
-        {
-          title: "Payment Settings",
-          path: "/admin/settings/payments",
-          icon: "💳",
-        },
-        { title: "Store Settings", path: "/admin/settings/store", icon: "🏪" },
+        { title: "All Admins", path: "/admin/orders", icon: "📋" },
+        { title: "Add Admin", path: "/admin/orders/pending", icon: "➕" },
       ],
     },
   ];
@@ -276,7 +185,10 @@ function AdminSidebar({ isOpen, toggleSidebar }) {
             </div>
           </div>
 
-          <button className="w-full mt-3 flex items-center justify-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-200">
+          <button
+            onClick={handleLogout}
+            className="w-full mt-3 flex items-center justify-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-200"
+          >
             <svg
               className="w-4 h-4"
               fill="none"
