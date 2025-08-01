@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import heroVideoMp4 from "../assets/videos/hero-video.mp4";
 import heroVideo2Mp4 from "../assets/videos/hero-video2.mp4";
 import s25 from "../assets/images/s25.jpg";
+import i16  from "../assets/images/i16.jpg";
+import R13pro from "../assets/images/R13pro.jpg";
 
 // Sample mobile phone data
 const mobilePhones = [
@@ -17,21 +18,21 @@ const mobilePhones = [
       "5000mAh Battery",
       "12GB RAM",
     ],
-    colors: ["Black", "Green", "Silver"],
+    colors: ["Black", "Titanium Silver Blue", "Silver"],
   },
   {
     id: 2,
-    name: "Rio Elite",
-    price: "$799",
-    image: "/images/phone2.jpg",
+    name: "I phone 16 pro",
+    price: "Rs 318,000.00",
+    image: i16,
     specs: ["6.5'' AMOLED", "64MP Camera", "4500mAh Battery", "8GB RAM"],
     colors: ["Green", "Blue", "White"],
   },
   {
     id: 3,
-    name: "Rio Lite",
-    price: "$499",
-    image: "/images/phone3.jpg",
+    name: "Xiaomi Redmi Note 13 Pro+",
+    price: "Rs.81,990.00",
+    image: R13pro,
     specs: ["6.1'' LCD", "48MP Camera", "4000mAh Battery", "6GB RAM"],
     colors: ["Black", "Green", "Red"],
   },
@@ -212,8 +213,8 @@ function HomeMain() {
                         className={`w-6 h-6 rounded-full border-2 border-gray-600 cursor-pointer hover:scale-110 transition-transform ${
                           color === "Black"
                             ? "bg-black"
-                            : color === "Green"
-                            ? "bg-green-500"
+                            : color === "Titanium Silver Blue"
+                            ? "bg-[#7A9BAE]"
                             : color === "Silver"
                             ? "bg-gray-300"
                             : color === "Blue"
@@ -227,6 +228,7 @@ function HomeMain() {
                             : color === "Gold"
                             ? "bg-yellow-500"
                             : "bg-gray-500"
+                            
                         }`}
                         title={color}
                       ></div>

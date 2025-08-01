@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import rioLogo from "../assets/images/RIO.png"; 
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -48,12 +49,19 @@ function Navbar() {
           {/* Logo */}
           <div className="flex items-center">
             <div className="flex-shrink-0 flex items-center">
-              <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mr-3 shadow-lg transform hover:scale-110 transition-transform duration-300">
-                <span className="text-black font-bold text-xl">R</span>
+              <div className="w-28 h-15 mr-3 mr-3 transform hover:scale-110 transition-transform duration-300">
+                <img
+                  src={rioLogo}
+                  alt="Rio Mobile Logo"
+                  className="w-full h-full object-cover rounded-full"
+                  onError={(e) => {
+                    // Fallback to "R" if image fails to load
+                    e.target.style.display = 'none';
+                    e.target.nextElementSibling.style.display = 'flex';
+                  }}
+                />
               </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
-                Rio Mobile
-              </span>
+              
             </div>
           </div>
 
@@ -61,35 +69,35 @@ function Navbar() {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               <a
-                href="#"
+                href="/"
                 className="text-white hover:text-green-300 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-green-500/20 hover:scale-105 hover:shadow-lg transform"
               >
-                🏠 Home
+                Home
               </a>
               <Link
                 to="/products"
                 className="text-white hover:text-green-300 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-green-500/20 hover:scale-105 hover:shadow-lg transform"
               >
-                📱 Products
+                Products
               </Link>
               <Link
                 to="/about"
                 className="text-white hover:text-green-300 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-green-500/20 hover:scale-105 hover:shadow-lg transform"
               >
-                ℹ️ About
+                About
               </Link>
               <Link
                 to="/contact"
                 className="text-white hover:text-green-300 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-green-500/20 hover:scale-105 hover:shadow-lg transform"
               >
-                📞 Contact
+                Contact
               </Link>
-              <button
-                onClick={handleGetStarted}
-                className="bg-gradient-to-r from-green-500 to-green-700 text-white px-6 py-2 rounded-full font-semibold hover:from-green-600 hover:to-green-800 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+              <Link
+                to="/services"
+                className="text-white hover:text-green-300 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-green-500/20 hover:scale-105 hover:shadow-lg transform"
               >
-                Get Started
-              </button>
+                Services
+              </Link>
             </div>
           </div>
 
@@ -124,44 +132,6 @@ function Navbar() {
             </button>
           </div>
         </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-black/20 rounded-lg backdrop-blur-sm mt-2">
-              <a
-                href="#"
-                className="text-white hover:text-green-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300"
-              >
-                🏠 Home
-              </a>
-              <Link
-                to="/products"
-                className="text-white hover:text-green-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300"
-              >
-                📱 Products
-              </Link>
-              <Link
-                to="/about"
-                className="text-white hover:text-green-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300"
-              >
-                ℹ️ About
-              </Link>
-              <Link
-                to="/contact"
-                className="text-white hover:text-green-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300"
-              >
-                📞 Contact
-              </Link>
-              <button
-                onClick={handleGetStarted}
-                className="w-full mt-2 bg-gradient-to-r from-green-500 to-green-700 text-white px-4 py-2 rounded-full font-semibold hover:from-green-600 hover:to-green-800 transition-all duration-300"
-              >
-                Get Started
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     </nav>
   );

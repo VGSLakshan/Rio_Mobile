@@ -1,23 +1,58 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  // Admin credentials
+  const ADMIN_EMAIL = "lakshansanchitha2000@gmail.com";
+  const ADMIN_PASSWORD = "200021302449";
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+    // Clear error when user starts typing
+    if (error) setError("");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log("Login attempt:", formData);
+    setLoading(true);
+    setError("");
+
+    // Simulate loading delay
+    setTimeout(() => {
+      console.log("Login attempt:", formData);
+
+      // Check admin credentials
+      if (
+        formData.email === ADMIN_EMAIL &&
+        formData.password === ADMIN_PASSWORD
+      ) {
+        console.log("✅ Admin login successful! Redirecting to dashboard...");
+
+        // Store admin session (optional)
+        localStorage.setItem("isAdminLoggedIn", "true");
+        localStorage.setItem("adminEmail", formData.email);
+
+        // Redirect to admin dashboard
+        navigate("/admin");
+      } else {
+        // Invalid credentials
+        setError("Invalid email or password. Please try again.");
+        console.log("❌ Invalid credentials");
+      }
+
+      setLoading(false);
+    }, 1000);
   };
 
   return (
@@ -75,7 +110,8 @@ function Login() {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300"
+                disabled={loading}
+                className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300 disabled:opacity-50"
                 placeholder="Enter your email"
               />
             </div>
@@ -94,7 +130,8 @@ function Login() {
                 required
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300"
+                disabled={loading}
+                className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300 disabled:opacity-50"
                 placeholder="Enter your password"
               />
             </div>
@@ -127,9 +164,17 @@ function Login() {
 
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-green-500 to-green-700 text-white py-3 px-4 rounded-xl font-semibold hover:from-green-600 hover:to-green-800 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-green-500 to-green-700 text-white py-3 px-4 rounded-xl font-semibold hover:from-green-600 hover:to-green-800 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
-              Sign In
+              {loading ? (
+                <div className="flex items-center justify-center">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                  Signing In...
+                </div>
+              ) : (
+                "Sign In"
+              )}
             </button>
           </form>
 
