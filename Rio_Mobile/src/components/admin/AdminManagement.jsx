@@ -447,81 +447,6 @@ function AdminManagement() {
                     />
                   </div>
 
-                  {/* Role */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Role
-                    </label>
-                    <select
-                      name="role"
-                      value={formData.role}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                    >
-                      <option value="admin">Admin</option>
-                      <option value="super_admin">Super Admin</option>
-                      <option value="moderator">Moderator</option>
-                    </select>
-                  </div>
-
-                  {/* Status */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Status
-                    </label>
-                    <select
-                      name="status"
-                      value={formData.status}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                    >
-                      <option value="active">Active</option>
-                      <option value="inactive">Inactive</option>
-                      <option value="pending">Pending</option>
-                    </select>
-                  </div>
-
-                  {/* Department */}
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Department
-                    </label>
-                    <input
-                      type="text"
-                      name="department"
-                      value={formData.department}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                      placeholder="e.g., Sales, Support, Technical"
-                    />
-                  </div>
-                </div>
-
-                {/* Permissions */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-4">
-                    Permissions
-                  </label>
-                  <div className="grid grid-cols-2 gap-3">
-                    {availablePermissions.map((permission) => (
-                      <label
-                        key={permission}
-                        className="flex items-center space-x-2 text-sm text-gray-300"
-                      >
-                        <input
-                          type="checkbox"
-                          name="permissions"
-                          value={permission}
-                          checked={formData.permissions.includes(permission)}
-                          onChange={handleInputChange}
-                          className="rounded text-green-500 focus:ring-green-500"
-                        />
-                        <span className="capitalize">
-                          {permission.replace(/_/g, " ")}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
                 </div>
 
                 {/* Form Actions */}
@@ -642,82 +567,6 @@ function AdminManagement() {
                       placeholder="Enter phone number"
                     />
                   </div>
-
-                  {/* Role */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Role
-                    </label>
-                    <select
-                      name="role"
-                      value={formData.role}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                    >
-                      <option value="admin">Admin</option>
-                      <option value="super_admin">Super Admin</option>
-                      <option value="moderator">Moderator</option>
-                    </select>
-                  </div>
-
-                  {/* Status */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Status
-                    </label>
-                    <select
-                      name="status"
-                      value={formData.status}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                    >
-                      <option value="active">Active</option>
-                      <option value="inactive">Inactive</option>
-                      <option value="pending">Pending</option>
-                    </select>
-                  </div>
-
-                  {/* Department */}
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Department
-                    </label>
-                    <input
-                      type="text"
-                      name="department"
-                      value={formData.department}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                      placeholder="e.g., Sales, Support, Technical"
-                    />
-                  </div>
-                </div>
-
-                {/* Permissions */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-4">
-                    Permissions
-                  </label>
-                  <div className="grid grid-cols-2 gap-3">
-                    {availablePermissions.map((permission) => (
-                      <label
-                        key={permission}
-                        className="flex items-center space-x-2 text-sm text-gray-300"
-                      >
-                        <input
-                          type="checkbox"
-                          name="permissions"
-                          value={permission}
-                          checked={formData.permissions.includes(permission)}
-                          onChange={handleInputChange}
-                          className="rounded text-green-500 focus:ring-green-500"
-                        />
-                        <span className="capitalize">
-                          {permission.replace(/_/g, " ")}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
                 </div>
 
                 {/* Form Actions */}
@@ -809,18 +658,6 @@ function AdminManagement() {
                       Contact
                     </th>
                     <th className="text-left py-4 px-4 text-gray-300 font-medium">
-                      Role
-                    </th>
-                    <th className="text-left py-4 px-4 text-gray-300 font-medium">
-                      Department
-                    </th>
-                    <th className="text-left py-4 px-4 text-gray-300 font-medium">
-                      Status
-                    </th>
-                    <th className="text-left py-4 px-4 text-gray-300 font-medium">
-                      Permissions
-                    </th>
-                    <th className="text-left py-4 px-4 text-gray-300 font-medium">
                       Actions
                     </th>
                   </tr>
@@ -858,48 +695,7 @@ function AdminManagement() {
                           )}
                         </div>
                       </td>
-                      <td className="py-4 px-4">
-                        <div className="flex items-center space-x-2">
-                          <span className="text-lg">
-                            {getRoleIcon(admin.role)}
-                          </span>
-                          <span className="text-white capitalize">
-                            {admin.role?.replace(/_/g, " ") || "admin"}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="py-4 px-4 text-gray-300">
-                        {admin.department || "Not specified"}
-                      </td>
-                      <td className="py-4 px-4">
-                        <span
-                          className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(
-                            admin.status || "active"
-                          )}`}
-                        >
-                          {(admin.status || "active").charAt(0).toUpperCase() +
-                            (admin.status || "active").slice(1)}
-                        </span>
-                      </td>
-                      <td className="py-4 px-4">
-                        <div className="flex flex-wrap gap-1">
-                          {(admin.permissions || [])
-                            .slice(0, 2)
-                            .map((permission, index) => (
-                              <span
-                                key={index}
-                                className="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs"
-                              >
-                                {permission.replace(/_/g, " ")}
-                              </span>
-                            ))}
-                          {(admin.permissions || []).length > 2 && (
-                            <span className="px-2 py-1 bg-gray-500/20 text-gray-400 rounded text-xs">
-                              +{(admin.permissions || []).length - 2} more
-                            </span>
-                          )}
-                        </div>
-                      </td>
+                      
                       <td className="py-4 px-4">
                         <div className="flex space-x-2">
                           {hasPermission("edit_admins") && (

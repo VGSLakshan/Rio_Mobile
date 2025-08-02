@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 // Import your contact image
 import contactImage from "../assets/images/contact.jpg"; // Add your contact image here
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 function Contact() {
   return (
@@ -299,6 +300,7 @@ function Contact() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
