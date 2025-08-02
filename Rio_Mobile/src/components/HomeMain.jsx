@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import heroVideo2Mp4 from "../assets/videos/hero-video2.mp4";
+import Footer from "./Footer";
 
 // Sample mobile phone data
 const videos = [
@@ -188,6 +189,8 @@ function HomeMain() {
           </div>
         </button>
       </div>
+      <Footer/>
+      
     </>
   );
 }
