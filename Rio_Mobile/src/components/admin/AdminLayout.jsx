@@ -37,8 +37,6 @@ function AdminLayout({ children }) {
 
       {/* Main Content Area */}
       <div className="lg:ml-64">
-        {/* Header */}
-        <AdminHeader toggleSidebar={toggleSidebar} />
 
         {/* Page Content */}
         <main className="p-6">

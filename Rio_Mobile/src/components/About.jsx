@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
+import rioLogo from "../assets/images/RIO.png";
+import shop from "../assets/images/shop.jpg";
 
 function About() {
   const [isVisible, setIsVisible] = useState(false);
@@ -96,9 +99,8 @@ function About() {
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-green-900">
       {/* Navbar */}
       <Navbar />
-      <div className="container mx-auto px-4 pt-8">
-        
-      </div>
+
+      {/* Background Logo with reduced opacity */}
 
       {/* Hero Section */}
       <section
@@ -106,12 +108,28 @@ function About() {
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         }`}
       >
+        <div
+          className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover opacity-25 pointer-events-none"
+          style={{
+            backgroundImage: `url(${shop})`,
+          }}
+        ></div>
+        <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black to-transparent pointer-events-none z-0"></div>
         <div className="container mx-auto px-4 text-center">
-          <div className="w-24 h-24 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl">
-            <span className="text-black font-bold text-4xl">R</span>
+          <div className="w-120 h-65 bg-gradient-to-r from-green-0 to-green-0 rounded-full flex items-center justify-center mx-auto mb-10 shadow-2xl">
+            <img
+              src={rioLogo}
+              alt="Rio Mobile Logo"
+              className="w-full h-full object-cover rounded-full"
+              onError={(e) => {
+                // Fallback to "R" if image fails to load
+                e.target.style.display = "none";
+                e.target.nextElementSibling.style.display = "flex";
+              }}
+            />
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent mb-6">
+          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent mb-6 leading-tight">
             Connecting Your Digital Life
           </h1>
 
@@ -297,21 +315,16 @@ function About() {
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link
-              to="/signup"
-              className="bg-gradient-to-r from-green-500 to-green-700 text-white px-10 py-4 rounded-full font-semibold text-lg hover:from-green-600 hover:to-green-800 transform hover:scale-105 transition-all duration-300 shadow-2xl"
-            >
-              Get Started Today
-            </Link>
-
-            <Link
               to="/contact"
-              className="border-2 border-green-500 text-green-400 px-10 py-4 rounded-full font-semibold text-lg hover:bg-green-500 hover:text-black transform hover:scale-105 transition-all duration-300"
+              className="bg-gradient-to-r from-green-500 to-green-700 text-white px-10 py-4 rounded-full font-semibold text-lg hover:from-green-600 hover:to-green-800 transform hover:scale-105 transition-all duration-300 shadow-2xl"
             >
               Contact Us
             </Link>
           </div>
         </div>
       </section>
+      {/* Footer */}
+      <Footer/>  
     </div>
   );
 }

@@ -20,6 +20,7 @@ function AdminProducts() {
     description: "",
     brand: "",
     image: "",
+    stock: "",
   });
   const [imagePreview, setImagePreview] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -99,31 +100,110 @@ function AdminProducts() {
     });
   };
 
-  // Handle image upload
+  // Handle image upload with better compression
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Check file size (limit to 5MB)
+      // Check file size (limit to 1MB for better server handling)
       if (file.size > 5 * 1024 * 1024) {
-        alert("Image size should be less than 5MB");
+        Swal.fire({
+          title: "File Too Large",
+          text: "Image size should be less than 5MB. Please compress your image.",
+          icon: "error",
+        });
         return;
       }
 
       // Check file type
       if (!file.type.startsWith("image/")) {
-        alert("Please select an image file");
+        Swal.fire({
+          title: "Invalid File Type",
+          text: "Please select an image file (JPG, PNG, GIF, etc.)",
+          icon: "error",
+        });
         return;
       }
 
-      // Create preview
+      // Create preview and compress image aggressively
       const reader = new FileReader();
       reader.onload = (e) => {
-        setImagePreview(e.target.result);
-        setFormData({
-          ...formData,
-          image: e.target.result, // Store base64 for now
+        console.log("📸 File loaded, starting compression...");
+        const img = new Image();
+        img.onload = () => {
+          console.log(
+            `📸 Original image dimensions: ${img.width}x${img.height}`
+          );
+
+          // Create canvas to compress image
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+
+          // Calculate new dimensions (max 400px width/height for smaller size)
+          const maxSize = 400;
+          let { width, height } = img;
+
+          if (width > height) {
+            if (width > maxSize) {
+              height = (height * maxSize) / width;
+              width = maxSize;
+            }
+          } else {
+            if (height > maxSize) {
+              width = (width * maxSize) / height;
+              height = maxSize;
+            }
+          }
+
+          console.log(`📸 Compressed dimensions: ${width}x${height}`);
+
+          canvas.width = width;
+          canvas.height = height;
+
+          // Draw and compress more aggressively
+          ctx.drawImage(img, 0, 0, width, height);
+          const compressedBase64 = canvas.toDataURL("image/jpeg", 0.5); // 50% quality for smaller size
+
+          // Check final size
+          const finalSize = Math.round((compressedBase64.length * 0.75) / 1024); // Approximate KB
+          console.log(`📸 Image compressed to ~${finalSize}KB`);
+
+          if (finalSize > 200) {
+            console.warn(
+              "⚠️ Compressed image is still large, might cause issues"
+            );
+          }
+
+          setImagePreview(compressedBase64);
+          setFormData({
+            ...formData,
+            image: compressedBase64,
+          });
+
+          console.log("✅ Image processing complete");
+        };
+
+        img.onerror = () => {
+          console.error("❌ Failed to load image");
+          Swal.fire({
+            title: "Image Error",
+            text: "Failed to process the image. Please try a different image.",
+            icon: "error",
+          });
+        };
+
+        img.src = e.target.result;
+      };
+
+      reader.onerror = () => {
+        console.error("❌ Failed to read file");
+        Swal.fire({
+          title: "File Error",
+          text: "Failed to read the image file. Please try again.",
+          icon: "error",
         });
       };
+
+      console.log("📸 Starting to read file...");
       reader.readAsDataURL(file);
     }
   };
@@ -135,9 +215,11 @@ function AdminProducts() {
       ...formData,
       image: "",
     });
-    // Reset file input
+    // Reset file inputs
     const fileInput = document.getElementById("image-upload");
+    const editFileInput = document.getElementById("image-upload-edit");
     if (fileInput) fileInput.value = "";
+    if (editFileInput) editFileInput.value = "";
   };
 
   const handleSubmit = async (e) => {
@@ -158,8 +240,13 @@ function AdminProducts() {
         price: parseFloat(formData.price),
         description: formData.description,
         image: formData.image,
-        stock: 10, // Default stock
+        stock: parseInt(formData.stock) || 0,
       };
+
+      console.log("📦 Sending product data:", {
+        ...productData,
+        image: productData.image ? "Image included" : "No image",
+      });
 
       // Send to backend API
       const response = await fetch("http://localhost:5000/api/products", {
@@ -173,20 +260,32 @@ function AdminProducts() {
       const result = await response.json();
 
       if (result.success) {
-        alert(
-          `✅ Product "${formData.name}" added successfully to MongoDB database!`
-        );
+        Swal.fire({
+          title: "Success!",
+          text: `Product "${formData.name}" added successfully to database!`,
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
         console.log("✅ Product saved to database:", result.data);
 
         // Refresh products list
         await fetchProducts();
       } else {
-        alert(`❌ Error: ${result.message}`);
+        Swal.fire({
+          title: "Error!",
+          text: result.message || "Failed to add product",
+          icon: "error",
+        });
         console.error("❌ Failed to save product:", result);
       }
     } catch (error) {
       console.error("❌ Error saving product:", error);
-      alert("Failed to save product. Please check the console for details.");
+      Swal.fire({
+        title: "Network Error!",
+        text: "Failed to connect to server. Please check your connection.",
+        icon: "error",
+      });
     }
 
     // Reset form
@@ -200,6 +299,7 @@ function AdminProducts() {
       description: "",
       brand: "",
       image: "",
+      stock: "",
     });
     setImagePreview(null);
     setSelectedCategory("");
@@ -208,26 +308,24 @@ function AdminProducts() {
   };
 
   const handleDelete = async (productId, productName) => {
-     {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/api/products/${productId}`,
-          {
-            method: "DELETE",
-          }
-        );
-
-        const result = await response.json();
-
-        if (result.success) {
-          await fetchProducts(); // Refresh list
-        } else {
-          alert(`Error: ${result.message}`);
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/products/${productId}`,
+        {
+          method: "DELETE",
         }
-      } catch (error) {
-        console.error("Error deleting product:", error);
-        alert("Failed to delete product.");
+      );
+
+      const result = await response.json();
+
+      if (result.success) {
+        await fetchProducts(); // Refresh list
+      } else {
+        alert(`Error: ${result.message}`);
       }
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      alert("Failed to delete product.");
     }
   };
 
@@ -245,6 +343,7 @@ function AdminProducts() {
       description: product.description || "",
       brand: product.brand || "",
       image: product.image || "",
+      stock: (product.stock || 0).toString(),
     });
     setImagePreview(product.image || null);
     setShowEditForm(true);
@@ -258,7 +357,7 @@ function AdminProducts() {
     try {
       console.log("📤 Updating product in database:", formData);
 
-      // Prepare data for API
+      // Prepare data for API - only include image if it's been changed
       const productData = {
         name: formData.name,
         category: selectedCategory,
@@ -268,10 +367,35 @@ function AdminProducts() {
         color: formData.color,
         price: parseFloat(formData.price),
         description: formData.description,
-        image: formData.image,
+        stock: parseInt(formData.stock) || 0,
       };
 
-      // Send to backend API
+      // Handle image data carefully
+      if (formData.image) {
+        if (formData.image.startsWith("data:image")) {
+          // New image uploaded
+          console.log("📸 New image detected, including in update");
+          productData.image = formData.image;
+        } else {
+          // Existing image URL - keep it
+          console.log("📸 Keeping existing image");
+          productData.image = formData.image;
+        }
+      } else {
+        // No image
+        console.log("📸 No image in update");
+        productData.image = "";
+      }
+
+      console.log("📦 Sending update data:", {
+        ...productData,
+        image: productData.image ? "Image included" : "No image",
+      });
+
+      // Send to backend API with timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
       const response = await fetch(
         `http://localhost:5000/api/products/${editingProduct._id}`,
         {
@@ -280,24 +404,58 @@ function AdminProducts() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(productData),
+          signal: controller.signal,
         }
       );
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const result = await response.json();
 
       if (result.success) {
-        alert(`✅ Product "${formData.name}" updated successfully!`);
+        Swal.fire({
+          title: "Success!",
+          text: `Product "${formData.name}" updated successfully!`,
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
         console.log("✅ Product updated in database:", result.data);
 
         // Refresh products list
         await fetchProducts();
       } else {
-        alert(`❌ Error: ${result.message}`);
+        Swal.fire({
+          title: "Update Failed!",
+          text: result.message || "Failed to update product",
+          icon: "error",
+        });
         console.error("❌ Failed to update product:", result);
       }
     } catch (error) {
       console.error("❌ Error updating product:", error);
-      alert("Failed to update product. Please check the console for details.");
+
+      let errorMessage =
+        "Failed to connect to server. Please check your connection.";
+
+      if (error.name === "AbortError") {
+        errorMessage = "Request timed out. The image might be too large.";
+      } else if (error.message.includes("413")) {
+        errorMessage =
+          "Image is too large for the server. Please use a smaller image.";
+      } else if (error.message.includes("500")) {
+        errorMessage = "Server error. Please try again or contact support.";
+      }
+
+      Swal.fire({
+        title: "Network Error!",
+        text: errorMessage,
+        icon: "error",
+      });
     }
 
     // Reset form
@@ -311,6 +469,7 @@ function AdminProducts() {
       description: "",
       brand: "",
       image: "",
+      stock: "",
     });
     setImagePreview(null);
     setSelectedCategory("");
@@ -355,6 +514,40 @@ function AdminProducts() {
     return `Rs. ${price.toLocaleString()}`;
   };
 
+  // Handle quick stock update
+  const handleQuickStockUpdate = async (productId, newStock) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/products/${productId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ stock: newStock }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (result.success) {
+        console.log(`✅ Stock updated to ${newStock}`);
+        await fetchProducts(); // Refresh list
+      } else {
+        alert(`Error: ${result.message}`);
+      }
+    } catch (error) {
+      console.error("Error updating stock:", error);
+      alert("Failed to update stock.");
+    }
+  };
+
+  // Toggle stock status (In Stock / Out of Stock)
+  const handleToggleStock = async (productId, currentStock) => {
+    const newStock = currentStock === 0 ? 10 : 0; // Toggle between 0 and 10
+    await handleQuickStockUpdate(productId, newStock);
+  };
+
   return (
     <AdminLayout>
       <div className="space-y-8">
@@ -365,7 +558,8 @@ function AdminProducts() {
               Products Management
             </h1>
             <p className="text-gray-400">
-              Manage your product inventory • Total Products: {products.length}
+              Manage your product inventory <br></br>
+              Total Products: {products.length}
             </p>
           </div>
           <div className="mt-4 md:mt-0">
@@ -415,6 +609,7 @@ function AdminProducts() {
                       description: "",
                       brand: "",
                       image: "",
+                      stock: "",
                     });
                   }}
                   className="text-gray-400 hover:text-white transition-colors"
@@ -613,6 +808,23 @@ function AdminProducts() {
                             placeholder="Enter price"
                           />
                         </div>
+
+                        {/* Stock */}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-300 mb-2">
+                            Stock Quantity *
+                          </label>
+                          <input
+                            type="number"
+                            name="stock"
+                            required
+                            min="0"
+                            value={formData.stock}
+                            onChange={handleInputChange}
+                            className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                            placeholder="Enter stock quantity"
+                          />
+                        </div>
                       </div>
 
                       {/* Description */}
@@ -667,7 +879,7 @@ function AdminProducts() {
                               />
                             </label>
                             <p className="text-xs text-gray-500 mt-2">
-                              Max size: 5MB
+                              Max size: 1MB
                             </p>
                           </div>
                         ) : (
@@ -756,6 +968,7 @@ function AdminProducts() {
                       description: "",
                       brand: "",
                       image: "",
+                      stock: "",
                     });
                   }}
                   className="text-gray-400 hover:text-white transition-colors"
@@ -915,6 +1128,26 @@ function AdminProducts() {
                           placeholder="Enter price"
                         />
                       </div>
+
+                      {/* Stock */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                          Stock Quantity *
+                        </label>
+                        <input
+                          type="number"
+                          name="stock"
+                          required
+                          min="0"
+                          value={formData.stock}
+                          onChange={handleInputChange}
+                          className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                          placeholder="Enter stock quantity"
+                        />
+                        <p className="text-xs text-gray-400 mt-1">
+                          Set to 0 for "Out of Stock" status
+                        </p>
+                      </div>
                     </div>
 
                     {/* Description */}
@@ -969,7 +1202,7 @@ function AdminProducts() {
                             />
                           </label>
                           <p className="text-xs text-gray-500 mt-2">
-                            Max size: 5MB
+                            Max size: 1MB
                           </p>
                         </div>
                       ) : (
@@ -1080,6 +1313,12 @@ function AdminProducts() {
                       Price
                     </th>
                     <th className="text-left py-4 px-4 text-gray-300 font-medium">
+                      Stock
+                    </th>
+                    <th className="text-left py-4 px-4 text-gray-300 font-medium">
+                      Status
+                    </th>
+                    <th className="text-left py-4 px-4 text-gray-300 font-medium">
                       Actions
                     </th>
                   </tr>
@@ -1136,6 +1375,68 @@ function AdminProducts() {
                       </td>
                       <td className="py-4 px-4 text-green-400 font-medium">
                         {formatPrice(product.price)}
+                      </td>
+
+                      <td className="py-4 px-4">
+                        <div className="flex items-center space-x-2">
+                          <span
+                            className={`font-medium ${getStockColor(
+                              product.stock || 0
+                            )}`}
+                          >
+                            {product.stock || 0}
+                          </span>
+                          <div className="flex space-x-1">
+                            <button
+                              onClick={() =>
+                                handleQuickStockUpdate(
+                                  product._id,
+                                  Math.max(0, (product.stock || 0) - 1)
+                                )
+                              }
+                              className="w-6 h-6 bg-red-600/20 hover:bg-red-600/40 text-red-400 rounded flex items-center justify-center transition-colors text-xs"
+                              title="Decrease stock"
+                            >
+                              -
+                            </button>
+                            <button
+                              onClick={() =>
+                                handleQuickStockUpdate(
+                                  product._id,
+                                  (product.stock || 0) + 1
+                                )
+                              }
+                              className="w-6 h-6 bg-green-600/20 hover:bg-green-600/40 text-green-400 rounded flex items-center justify-center transition-colors text-xs"
+                              title="Increase stock"
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                        <div className="text-xs mt-1">
+                          {(product.stock || 0) === 0 ? (
+                            <span className="text-red-400 font-medium">
+                              Out of Stock
+                            </span>
+                          ) : (product.stock || 0) <= 5 ? (
+                            <span className="text-yellow-400">Low Stock</span>
+                          ) : (
+                            <span className="text-green-400">In Stock</span>
+                          )}
+                        </div>
+                      </td>
+
+                      <td className="py-4 px-4">
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(
+                            product.status || "active"
+                          )}`}
+                        >
+                          {(product.status || "active")
+                            .charAt(0)
+                            .toUpperCase() +
+                            (product.status || "active").slice(1)}
+                        </span>
                       </td>
 
                       <td className="py-4 px-4">

@@ -40,7 +40,7 @@ function AdminSidebar({ isOpen, toggleSidebar }) {
       hasSubMenu: true,
       subItems: [
         { title: "All Products", path: "/admin/products", icon: "📋" },
-        { title: "Add Product", path: "/admin/products/add", icon: "➕" },
+        
       ],
     },
     {
@@ -50,7 +50,6 @@ function AdminSidebar({ isOpen, toggleSidebar }) {
       hasSubMenu: true,
       subItems: [
         { title: "All Admins", path: "/admin/orders", icon: "📋" },
-        { title: "Add Admin", path: "/admin/orders/pending", icon: "➕" },
       ],
     },
   ];
