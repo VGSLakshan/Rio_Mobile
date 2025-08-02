@@ -1,50 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import heroVideo2Mp4 from "../assets/videos/hero-video2.mp4";
-import s25 from "../assets/images/s25.jpg";
-import i16  from "../assets/images/i16.jpg";
-import R13pro from "../assets/images/R13pro.jpg";
 
 // Sample mobile phone data
-const mobilePhones = [
-  {
-    id: 1,
-    name: "Samsung S25 Ultra",
-    price: "Rs.264,990.00",
-    image: s25,
-    specs: [
-      "6.7'' OLED Display",
-      "108MP Camera",
-      "5000mAh Battery",
-      "12GB RAM",
-    ],
-    colors: ["Black", "Titanium Silver Blue", "Silver"],
-  },
-  {
-    id: 2,
-    name: "I phone 16 pro",
-    price: "Rs 318,000.00",
-    image: i16,
-    specs: ["6.5'' AMOLED", "64MP Camera", "4500mAh Battery", "8GB RAM"],
-    colors: ["Green", "Blue", "White"],
-  },
-  {
-    id: 3,
-    name: "Xiaomi Redmi Note 13 Pro+",
-    price: "Rs.81,990.00",
-    image: R13pro,
-    specs: ["6.1'' LCD", "48MP Camera", "4000mAh Battery", "6GB RAM"],
-    colors: ["Black", "Green", "Red"],
-  },
-  {
-    id: 4,
-    name: "Rio Max",
-    price: "$1199",
-    image: "/images/phone4.jpg",
-    specs: ["6.8'' OLED", "200MP Camera", "6000mAh Battery", "16GB RAM"],
-    colors: ["Titanium", "Green", "Gold"],
-  },
+const videos = [
+  { id: 'XkXbkxtBlwY', title: 'First Video Title' },
+  { id: 'MJwawT9BHWc', title: 'Second Video Title' },
+  { id: 'dQw4w9WgXcQ', title: 'Third Video Title' },
+  { id: 'oHg5SJYRHA0', title: 'Fourth Video Title' },
 ];
+
 
 function HomeMain() {
   // Function to scroll to products section
@@ -105,9 +70,7 @@ function HomeMain() {
               >
                 Explore Products
               </button>
-              <button className="border-2 border-green-500 text-green-400 px-8 py-4 rounded-full font-semibold text-lg hover:bg-green-500 hover:text-black transform hover:scale-105 transition-all duration-300">
-                Watch Demo
-              </button>
+              
             </div>
           </div>
         </div>
@@ -151,103 +114,49 @@ function HomeMain() {
             </p>
           </div>
 
-          {/* Mobile Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {mobilePhones.map((phone) => (
-              <div
-                key={phone.id}
-                className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-2xl border border-green-500/20 group"
-              >
-                {/* Phone Image */}
-                <div className="bg-gray-700 rounded-xl h-64 mb-6 flex items-center justify-center relative overflow-hidden">
-                  {phone.image ? (
-                    <img
-                      src={phone.image}
-                      alt={phone.name}
-                      className="w-full h-full object-cover rounded-xl hover:scale-110 transition-transform duration-300"
-                      onError={(e) => {
-                        // Fallback to emoji if image fails to load
-                        e.target.style.display = "none";
-                        e.target.nextElementSibling.style.display = "flex";
-                      }}
-                    />
-                  ) : null}
-                  <div
-                    className="text-6xl text-green-400 absolute inset-0 flex items-center justify-center"
-                    style={{ display: phone.image ? "none" : "flex" }}
-                  >
-                    📱
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
+          {/* Video Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+  {videos.map(({ id, title }, idx) => (
+    <div
+      key={id}
+      className="
+        relative
+        w-full
+        pt-[56.25%]
+        rounded-2xl
+        overflow-hidden
+        shadow-lg
+        transition-all duration-1000
+        hover:ring-4 hover:ring-green-200 hover:ring-offset-2 hover:ring-offset-black
+      "
+    >
+      {/* Video */}
+      <iframe
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        src={`https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&modestbranding=1&rel=0&iv_load_policy=3&fs=0&playsinline=1&disablekb=1&start=1`}
+        title={title}
+        frameBorder="0"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowFullScreen
+      />
 
-                {/* Phone Details */}
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <h3 className="text-xl font-bold text-white">
-                      {phone.name}
-                    </h3>
-                    <span className="text-l font-bold text-green-400">
-                      {phone.price}
-                    </span>
-                  </div>
+      {/* Overlay Title */}
+      <div
+  className="
+    absolute
+    bottom-4 left-4
+    bg-black/00      /* semi-opaque black */
+    px-3 py-1 rounded
+   text-white text-3xl text-bolt font-oswald  pointer-events-none
+  "
+>
+  {title}
+</div>
+    </div>
+  ))}
+</div>
 
-                  {/* Specifications */}
-                  <div className="space-y-2">
-                    {phone.specs.map((spec, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center text-gray-300 text-sm"
-                      >
-                        <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
-                        {spec}
-                      </div>
-                    ))}
-                  </div>
 
-                  {/* Color Options */}
-                  <div className="flex space-x-2">
-                    {phone.colors.map((color, index) => (
-                      <div
-                        key={index}
-                        className={`w-6 h-6 rounded-full border-2 border-gray-600 cursor-pointer hover:scale-110 transition-transform ${
-                          color === "Black"
-                            ? "bg-black"
-                            : color === "Titanium Silver Blue"
-                            ? "bg-[#7A9BAE]"
-                            : color === "Silver"
-                            ? "bg-gray-300"
-                            : color === "Blue"
-                            ? "bg-blue-500"
-                            : color === "White"
-                            ? "bg-white"
-                            : color === "Red"
-                            ? "bg-red-500"
-                            : color === "Titanium"
-                            ? "bg-gray-400"
-                            : color === "Gold"
-                            ? "bg-yellow-500"
-                            : "bg-gray-500"
-                            
-                        }`}
-                        title={color}
-                      ></div>
-                    ))}
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex space-x-3 pt-4">
-                    <button className="flex-1 bg-gradient-to-r from-green-500 to-green-700 text-white py-3 rounded-xl font-semibold hover:from-green-600 hover:to-green-800 transition-all duration-300 transform hover:scale-105">
-                      Buy Now
-                    </button>
-                    <button className="flex-1 border border-green-500 text-green-400 py-3 rounded-xl font-semibold hover:bg-green-500 hover:text-black transition-all duration-300">
-                      Details
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
 
           {/* View All Button */}
           <div className="text-center mt-12">
