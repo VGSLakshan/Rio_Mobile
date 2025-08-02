@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import rioLogo from "../assets/images/RIO.png"; 
 
 function Footer() {
   return (
@@ -9,9 +10,18 @@ function Footer() {
           {/* Company Info */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center">
-                <span className="text-black font-bold text-xl">R</span>
-              </div>
+              <div className="w-28 h-15 mr-3 mr-3 transform hover:scale-110 transition-transform duration-300">
+                              <img
+                                src={rioLogo}
+                                alt="Rio Mobile Logo"
+                                className="w-full h-full object-cover rounded-full"
+                                onError={(e) => {
+                                  // Fallback to "R" if image fails to load
+                                  e.target.style.display = 'none';
+                                  e.target.nextElementSibling.style.display = 'flex';
+                                }}
+                              />
+                            </div>
               <div>
                 <h3 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
                   Rio Mobile

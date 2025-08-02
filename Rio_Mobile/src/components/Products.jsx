@@ -125,81 +125,133 @@ function Products() {
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black/70 backdrop-blur-sm z-10"></div>
         {/* Bottom Black Fade */}
-<div className="absolute bottom-0 left-0 w-full h-60 bg-gradient-to-t from-black to-via-gray-900 z-20 pointer-events-none"></div>
-
+        <div className="absolute bottom-0 left-0 w-full h-60 bg-gradient-to-t from-black to-via-gray-900 z-20 pointer-events-none"></div>
 
         {/* Header Content */}
         <div className="relative z-20 text-center">
-          <div className="w-120 h-65 bg-gradient-to-r from-green-0 to-green-0 rounded-full flex items-center justify-center mx-auto mb-10 shadow-2xl">
-                      <img
-                        src={rioLogo}
-                        alt="Rio Mobile Logo"
-                        className="w-full h-full object-cover rounded-full"
-                        onError={(e) => {
-                          // Fallback to "R" if image fails to load
-                          e.target.style.display = "none";
-                          e.target.nextElementSibling.style.display = "flex";
-                        }}
-                      />
-                    </div>
-          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent mb-4">
-            Our Products
-          </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Discover our complete range of mobile phones, accessories, speakers,
-            and more
-          </p>
-          <br></br>
+          {/* CSS for looping animation */}
+          <style jsx>{`
+            @keyframes slideUpLoop {
+              0% {
+                transform: translateY(120vh);
+                opacity: 0;
+              }
+              3% {
+                opacity: 1;
+              }
+              97% {
+                opacity: 1;
+              }
+              100% {
+                transform: translateY(-120vh);
+                opacity: 0;
+              }
+            }
 
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">What We Offer</h2>
+            .animate-set-1 {
+              animation: slideUpLoop 12s linear infinite;
+              animation-delay: 0s;
+            }
+          `}</style>
 
-<ul className="space-y-6 text-left text-gray-300 text-lg max-w-4xl mx-auto">
-  {/* Product 1 */}
-  <li>
-    <span className="text-green-400 font-semibold text-xl">📱 SmartPhones</span>
-    <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
-      <li>Latest Android and iOS models with blazing fast performance.</li>
-      <li>Long-lasting battery life and high-refresh-rate displays.</li>
-      <li>Best-in-class camera systems for pro-level photography.</li>
-      <li>Warranty & after-sales support included with every device.</li>
-    </ul>
-  </li>
+          {/* First Set - Rio Logo to Mobile Accessories */}
+          <div className="animate-set-1">
+            <div className="w-120 h-65 bg-gradient-to-r from-green-0 to-green-0 rounded-full flex items-center justify-center mx-auto mb-10 shadow-2xl">
+              <img
+                src={rioLogo}
+                alt="Rio Mobile Logo"
+                className="w-full h-full object-cover rounded-full"
+                onError={(e) => {
+                  // Fallback to "R" if image fails to load
+                  e.target.style.display = "none";
+                  e.target.nextElementSibling.style.display = "flex";
+                }}
+              />
+            </div>
+            <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent mb-4">
+              Our Products
+            </h1>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+              Discover our complete range of mobile phones, accessories,
+              speakers, and more
+            </p>
 
-  {/* Product 2 */}
-  <li>
-    <span className="text-green-400 font-semibold text-xl">🎧 Audio Accessories</span>
-    <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
-      <li>Noise-canceling wireless headphones and earbuds.</li>
-      <li>Powerful Bluetooth speakers with deep bass.</li>
-      <li>Perfect for travel, workouts, or immersive movie nights.</li>
-    </ul>
-  </li>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+              What We Offer
+            </h2>
 
-  {/* Product 3 */}
-  <li>
-    <span className="text-green-400 font-semibold text-xl">🔌 Mobile Accessories</span>
-    <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
-      <li>Fast chargers, power banks, cables, and magnetic mounts.</li>
-      <li>Engineered for safety, durability, and fast performance.</li>
-      <li>Universal compatibility with all major devices.</li>
-    </ul>
-  </li>
+            <ul className="space-y-6 text-left text-gray-300 text-lg max-w-4xl mx-auto">
+              {/* Product 1 */}
+              <li className="mb-6">
+                <span className="text-green-400 font-semibold text-xl block mb-2">
+                  📱 SmartPhones
+                </span>
+                <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
+                  <li>
+                    Latest Android and iOS models with blazing fast performance.
+                  </li>
+                  <li>
+                    Long-lasting battery life and high-refresh-rate displays.
+                  </li>
+                  <li>
+                    Best-in-class camera systems for pro-level photography.
+                  </li>
+                  <li>
+                    Warranty & after-sales support included with every device.
+                  </li>
+                </ul>
+              </li>
 
-  {/* Product 4 */}
-  <li>
-    <span className="text-green-400 font-semibold text-xl">🧩 Smart Gadgets</span>
-    <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
-      <li>Smart watches, fitness trackers, and IoT gadgets.</li>
-      <li>Track your health, steps, sleep, and get notifications on the go.</li>
-      <li>Stylish and functional for both tech lovers and casual users.</li>
-    </ul>
-  </li>
-</ul>
+              {/* Product 2 */}
+              <li className="mb-6">
+                <span className="text-green-400 font-semibold text-xl block mb-2">
+                  🎧 Audio Accessories
+                </span>
+                <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
+                  <li>Noise-canceling wireless headphones and earbuds.</li>
+                  <li>Powerful Bluetooth speakers with deep bass.</li>
+                  <li>
+                    Perfect for travel, workouts, or immersive movie nights.
+                  </li>
+                </ul>
+              </li>
 
-
-
-
-
+              {/* Product 3 */}
+              <li className="mb-6">
+                <span className="text-green-400 font-semibold text-xl block mb-2">
+                  🔌 Mobile Accessories
+                </span>
+                <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
+                  <li>
+                    Fast chargers, power banks, cables, and magnetic mounts.
+                  </li>
+                  <li>
+                    Engineered for safety, durability, and fast performance.
+                  </li>
+                  <li>Universal compatibility with all major devices.</li>
+                </ul>
+              </li>
+            </ul>
+            <ul className="space-y-6 text-left text-gray-300 text-lg max-w-4xl mx-auto">
+              {/* Product 4 */}
+              <li className="mb-6">
+                <span className="text-green-400 font-semibold text-xl block mb-2">
+                  🧩 Smart Gadgets
+                </span>
+                <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
+                  <li>Smart watches, fitness trackers, and IoT gadgets.</li>
+                  <li>
+                    Track your health, steps, sleep, and get notifications on
+                    the go.
+                  </li>
+                  <li>
+                    Stylish and functional for both tech lovers and casual
+                    users.
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 

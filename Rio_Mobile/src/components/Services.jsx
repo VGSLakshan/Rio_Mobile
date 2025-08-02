@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 function Services() {
   const [selectedService, setSelectedService] = useState(null);
@@ -389,7 +390,9 @@ function Services() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
+    
   );
 }
 

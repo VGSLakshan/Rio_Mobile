@@ -5,12 +5,12 @@ import Footer from "./Footer";
 
 // Sample mobile phone data
 const videos = [
-  { id: 'XkXbkxtBlwY', title: 'First Video Title' },
-  { id: 'MJwawT9BHWc', title: 'Second Video Title' },
-  { id: 'dQw4w9WgXcQ', title: 'Third Video Title' },
-  { id: 'oHg5SJYRHA0', title: 'Fourth Video Title' },
+  { id: "XkXbkxtBlwY", title: "iPhone 15 Pro Max" },
+  { id: "MJwawT9BHWc", title: "Samsung Galaxy S24 Ultra" },
+  { id: "dQw4w9WgXcQ", title: "Google Pixel 8 Pro" },
+  { id: "oHg5SJYRHA0", title: "OnePlus 12" },
+  { id: "oHg5SJYRHA0", title: "Xiaomi 14 Ultra" },
 ];
-
 
 function HomeMain() {
   // Function to scroll to products section
@@ -71,7 +71,6 @@ function HomeMain() {
               >
                 Explore Products
               </button>
-              
             </div>
           </div>
         </div>
@@ -117,10 +116,10 @@ function HomeMain() {
 
           {/* Video Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-  {videos.map(({ id, title }, idx) => (
-    <div
-      key={id}
-      className="
+            {videos.map(({ id, title }, idx) => (
+              <div
+                key={id}
+                className="
         relative
         w-full
         pt-[56.25%]
@@ -130,34 +129,46 @@ function HomeMain() {
         transition-all duration-1000
         hover:ring-4 hover:ring-green-200 hover:ring-offset-2 hover:ring-offset-black
       "
-    >
-      {/* Video */}
-      <iframe
-        className="absolute inset-0 w-full h-full pointer-events-none"
-        src={`https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&modestbranding=1&rel=0&iv_load_policy=3&fs=0&playsinline=1&disablekb=1&start=1`}
-        title={title}
-        frameBorder="0"
-        allow="autoplay; encrypted-media; picture-in-picture"
-        allowFullScreen
-      />
+              >
+                {/* Video */}
+                <iframe
+                  className="absolute inset-0 w-full h-full pointer-events-none"
+                  src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&modestbranding=1&rel=0&iv_load_policy=3&fs=0&playsinline=1&disablekb=1&start=1&showinfo=0&cc_load_policy=0&autohide=1&wmode=opaque&origin=${window.location.origin}&enablejsapi=1`}
+                  title={title}
+                  frameBorder="0"
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  allowFullScreen
+                />
 
-      {/* Overlay Title */}
-      <div
-  className="
-    absolute
-    bottom-4 left-4
-    bg-black/00      /* semi-opaque black */
-    px-3 py-1 rounded
-   text-white text-3xl text-bolt font-oswald  pointer-events-none
-  "
->
-  {title}
-</div>
-    </div>
-  ))}
-</div>
+                {/* Complete YouTube UI Hide Overlay */}
+                <div className="absolute inset-0 pointer-events-none z-30">
+                  {/* Full top overlay to hide title, logo, and any UI */}
+                  <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-black via-black/90 to-transparent"></div>
 
+                  {/* Side overlays to hide any side UI elements */}
+                  <div className="absolute top-0 left-0 bottom-0 w-16 bg-gradient-to-r from-black/80 to-transparent"></div>
+                  <div className="absolute top-0 right-0 bottom-0 w-16 bg-gradient-to-l from-black/80 to-transparent"></div>
 
+                  {/* Bottom overlay to hide any controls or branding */}
+                  <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black via-black/90 to-transparent"></div>
+
+                  {/* Center overlay for any remaining UI elements */}
+                  <div className="absolute top-4 right-4 w-20 h-12 bg-black/90 rounded"></div>
+                  <div className="absolute bottom-4 right-4 w-16 h-8 bg-black/90 rounded"></div>
+                </div>
+
+                {/* Loading state overlay */}
+                <div className="absolute inset-0 bg-black/20 pointer-events-none z-25">
+                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-black/10 to-black/30"></div>
+                </div>
+
+                {/* Custom Product Title */}
+                <div className="absolute bottom-4 left-4 bg-gradient-to-r from-green-600/90 to-green-800/90 backdrop-blur-sm px-4 py-2 rounded-lg text-white text-lg font-bold pointer-events-none z-40 shadow-lg border border-green-500/30">
+                  {title}
+                </div>
+              </div>
+            ))}
+          </div>
 
           {/* View All Button */}
           <div className="text-center mt-12">
@@ -189,8 +200,7 @@ function HomeMain() {
           </div>
         </button>
       </div>
-      <Footer/>
-      
+      <Footer />
     </>
   );
 }
