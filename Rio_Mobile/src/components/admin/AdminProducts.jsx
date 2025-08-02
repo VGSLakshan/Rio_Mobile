@@ -558,7 +558,8 @@ function AdminProducts() {
               Products Management
             </h1>
             <p className="text-gray-400">
-              Manage your product inventory • Total Products: {products.length}
+              Manage your product inventory <br></br>
+              Total Products: {products.length}
             </p>
           </div>
           <div className="mt-4 md:mt-0">
@@ -1201,7 +1202,7 @@ function AdminProducts() {
                             />
                           </label>
                           <p className="text-xs text-gray-500 mt-2">
-                            Max size: 5MB
+                            Max size: 1MB
                           </p>
                         </div>
                       ) : (

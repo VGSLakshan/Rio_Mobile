@@ -10,6 +10,7 @@ import Products from "./components/Products";
 import AdminPage from "./pages/AdminPage";
 import Services from "./components/Services";
 import AdminProducts from "./components/admin/AdminProducts";
+import AdminManagement from "./components/admin/AdminManagement";
 
 function App() {
   return (
@@ -33,6 +34,8 @@ function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/admin/products" element={<AdminProducts />} />
+          <Route path="/admin/orders" element={<AdminManagement />} />
+
         </Routes>
       </div>
     </Router>
