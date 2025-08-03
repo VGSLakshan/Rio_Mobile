@@ -96,6 +96,28 @@ function Services() {
       image: "/images/board-repair.jpg",
       color: "from-orange-500 to-red-500",
     },
+    {
+      id: 4,
+      title: "Doctor Channeling",
+      icon: "🩺",
+      description:
+        "Book appointments with certified medical professionals across multiple specialties.",
+      features: [
+        "General practitioners",
+        "Specialist consultations",
+        "Online and in-person appointments",
+        "Real-time availability tracking",
+        "Hospital and clinic-based services",
+        "Prescription issuance",
+        "Follow-up scheduling",
+        "Mobile-friendly booking system",
+      ],
+      pricing: "Starting from Rs. 1,500",
+      duration: "10 - 20 minutes per session",
+      warranty: "No medical guarantee, but consultation report provided",
+      image: "/images/doctor-channeling.jpg",
+      color: "from-teal-500 to-blue-500",
+    },
   ];
 
   const repairProcess = [
@@ -183,9 +205,6 @@ function Services() {
         {/* Content */}
         <div className="relative z-20 flex items-center justify-center h-full">
           <div className="text-center text-white px-4 max-w-4xl">
-            <div className="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl">
-              <span className="text-black font-bold text-4xl">🔧</span>
-            </div>
             <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
               Professional Repair Services
             </h1>
