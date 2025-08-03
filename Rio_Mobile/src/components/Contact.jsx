@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import contactImage from "../assets/images/contact.jpg"; // Add your contact image here
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import rioLogo from "../assets/images/RIO.png";
 
 function Contact() {
   return (
@@ -19,9 +20,18 @@ function Contact() {
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-            <span className="text-black font-bold text-3xl">R</span>
-          </div>
+          <div className="w-120 h-65 bg-gradient-to-r from-green-0 to-green-0 rounded-full flex items-center justify-center mx-auto mb-10 shadow-2xl">
+                      <img
+                        src={rioLogo}
+                        alt="Rio Mobile Logo"
+                        className="w-full h-full object-cover rounded-full"
+                        onError={(e) => {
+                          // Fallback to "R" if image fails to load
+                          e.target.style.display = "none";
+                          e.target.nextElementSibling.style.display = "flex";
+                        }}
+                      />
+                    </div>
           <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent mb-4">
             Contact Us
           </h1>

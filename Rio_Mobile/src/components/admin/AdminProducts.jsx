@@ -100,15 +100,15 @@ function AdminProducts() {
     });
   };
 
-  // Handle image upload with better compression
+  // Handle image upload with original quality (no compression)
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Check file size (limit to 1MB for better server handling)
-      if (file.size > 5 * 1024 * 1024) {
+      // Check file size (limit to 100MB for original quality)
+      if (file.size > 100 * 1024 * 1024) {
         Swal.fire({
           title: "File Too Large",
-          text: "Image size should be less than 5MB. Please compress your image.",
+          text: "Image size should be less than 100MB. Please select a smaller image.",
           icon: "error",
         });
         return;
@@ -118,80 +118,42 @@ function AdminProducts() {
       if (!file.type.startsWith("image/")) {
         Swal.fire({
           title: "Invalid File Type",
-          text: "Please select an image file (JPG, PNG, GIF, etc.)",
+          text: "Please select an image file (JPG, PNG, GIF, WEBP, etc.)",
           icon: "error",
         });
         return;
       }
 
-      // Create preview and compress image aggressively
+      // Read file as base64 without compression (original quality)
       const reader = new FileReader();
       reader.onload = (e) => {
-        console.log("📸 File loaded, starting compression...");
-        const img = new Image();
-        img.onload = () => {
-          console.log(
-            `📸 Original image dimensions: ${img.width}x${img.height}`
-          );
+        console.log("📸 File loaded, keeping original quality...");
+        const originalBase64 = e.target.result;
 
-          // Create canvas to compress image
-          const canvas = document.createElement("canvas");
-          const ctx = canvas.getContext("2d");
+        // Calculate file size in MB
+        const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+        console.log(`📸 Original image size: ${fileSizeMB}MB`);
+        console.log(
+          `📸 Image dimensions will be preserved at original quality`
+        );
 
-          // Calculate new dimensions (max 400px width/height for smaller size)
-          const maxSize = 400;
-          let { width, height } = img;
+        // Set image preview and form data with original quality
+        setImagePreview(originalBase64);
+        setFormData({
+          ...formData,
+          image: originalBase64,
+        });
 
-          if (width > height) {
-            if (width > maxSize) {
-              height = (height * maxSize) / width;
-              width = maxSize;
-            }
-          } else {
-            if (height > maxSize) {
-              width = (width * maxSize) / height;
-              height = maxSize;
-            }
-          }
+        console.log("✅ Original quality image processing complete");
 
-          console.log(`📸 Compressed dimensions: ${width}x${height}`);
-
-          canvas.width = width;
-          canvas.height = height;
-
-          // Draw and compress more aggressively
-          ctx.drawImage(img, 0, 0, width, height);
-          const compressedBase64 = canvas.toDataURL("image/jpeg", 0.5); // 50% quality for smaller size
-
-          // Check final size
-          const finalSize = Math.round((compressedBase64.length * 0.75) / 1024); // Approximate KB
-          console.log(`📸 Image compressed to ~${finalSize}KB`);
-
-          if (finalSize > 200) {
-            console.warn(
-              "⚠️ Compressed image is still large, might cause issues"
-            );
-          }
-
-          setImagePreview(compressedBase64);
-          setFormData({
-            ...formData,
-            image: compressedBase64,
-          });
-
-          console.log("✅ Image processing complete");
-        };
-
-        img.onerror = () => {
-          console.error("❌ Failed to load image");
-          Swal.fire({
-            title: "Image Error",
-            text: "Failed to process the image. Please try a different image.",
-            icon: "error",
-          });
-        };
-
-        img.src = e.target.result;
+        // Show success message with file info
+        Swal.fire({
+          title: "Image Uploaded!",
+          text: `Original quality image (${fileSizeMB}MB) uploaded successfully.`,
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
       };
 
       reader.onerror = () => {
@@ -203,7 +165,12 @@ function AdminProducts() {
         });
       };
 
-      console.log("📸 Starting to read file...");
+      console.log(
+        `📸 Starting to read file: ${file.name} (${(
+          file.size /
+          (1024 * 1024)
+        ).toFixed(2)}MB)`
+      );
       reader.readAsDataURL(file);
     }
   };
@@ -245,24 +212,34 @@ function AdminProducts() {
 
       console.log("📦 Sending product data:", {
         ...productData,
-        image: productData.image ? "Image included" : "No image",
+        image: productData.image
+          ? `Image included (${Math.round(
+              (productData.image.length * 0.75) / 1024 / 1024
+            )}MB)`
+          : "No image",
       });
 
-      // Send to backend API
+      // Send to backend API with extended timeout for large images
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout for large images
+
       const response = await fetch("http://localhost:5000/api/products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(productData),
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       const result = await response.json();
 
       if (result.success) {
         Swal.fire({
           title: "Success!",
-          text: `Product "${formData.name}" added successfully to database!`,
+          text: `Product "${formData.name}" added successfully to database with original quality image!`,
           icon: "success",
           timer: 2000,
           showConfirmButton: false,
@@ -281,9 +258,21 @@ function AdminProducts() {
       }
     } catch (error) {
       console.error("❌ Error saving product:", error);
+
+      let errorMessage =
+        "Failed to connect to server. Please check your connection.";
+
+      if (error.name === "AbortError") {
+        errorMessage =
+          "Request timed out. The image might be too large or connection is slow.";
+      } else if (error.message.includes("413")) {
+        errorMessage =
+          "Image is too large for the server. Please use a smaller image.";
+      }
+
       Swal.fire({
         title: "Network Error!",
-        text: "Failed to connect to server. Please check your connection.",
+        text: errorMessage,
         icon: "error",
       });
     }
@@ -876,10 +865,11 @@ function AdminProducts() {
                                 accept="image/*"
                                 onChange={handleImageChange}
                                 className="hidden"
+                                required
                               />
                             </label>
                             <p className="text-xs text-gray-500 mt-2">
-                              Max size: 1MB
+                              Max size: 100MB • Original Quality
                             </p>
                           </div>
                         ) : (
@@ -1202,7 +1192,7 @@ function AdminProducts() {
                             />
                           </label>
                           <p className="text-xs text-gray-500 mt-2">
-                            Max size: 1MB
+                            Max size: 100MB • Original Quality
                           </p>
                         </div>
                       ) : (

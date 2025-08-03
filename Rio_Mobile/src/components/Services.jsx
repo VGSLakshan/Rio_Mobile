@@ -1,34 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import rep1 from "../assets/videos/rep1.mp4";
-import rep2 from "../assets/videos/rep2.mp4";
-import rep3 from "../assets/videos/rep3.mp4";
+import serv1 from "../assets/images/serv1.jpg";
+import rioLogo from "../assets/images/RIO.png";
 
 function Services() {
   const [selectedService, setSelectedService] = useState(null);
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-  const videoRef = useRef(null);
-
-  // Array of video sources
-  const videoSources = [rep1, rep2, rep3];
-
-  // Handle video ended event to play next video
-  const handleVideoEnded = () => {
-    setCurrentVideoIndex((prevIndex) =>
-      prevIndex === videoSources.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  // Update video source when currentVideoIndex changes
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.src = videoSources[currentVideoIndex];
-      videoRef.current.load();
-      videoRef.current.play();
-    }
-  }, [currentVideoIndex]);
 
   const services = [
     {
@@ -114,7 +92,7 @@ function Services() {
       ],
       pricing: "Starting from Rs. 1,500",
       duration: "10 - 20 minutes per session",
-      
+
       image: "/images/doctor-channeling.jpg",
       color: "from-teal-500 to-blue-500",
     },
@@ -184,27 +162,34 @@ function Services() {
       {/* Navbar */}
       <Navbar />
 
-      {/* Full Screen Video Hero Section */}
+      {/* Full Screen Image Hero Section */}
       <section className="relative h-screen w-full overflow-hidden">
-        {/* Video Background */}
-        <video
-          ref={videoRef}
-          className="absolute top-0 left-0 w-full h-full object-cover z-0"
-          autoPlay
-          muted
-          onEnded={handleVideoEnded}
-          playsInline
-        >
-          <source src={videoSources[currentVideoIndex]} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        {/* Image Background */}
+        <div
+          className="absolute top-0 left-0 w-full h-full bg-cover bg-center bg-no-repeat z-0"
+          style={{
+            backgroundImage: `url(${serv1})`,
+          }}
+        ></div>
 
         {/* Dark Overlay */}
-        <div className="absolute top-0 left-0 w-full h-full bg-black/50 z-10"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-black/60 z-10"></div>
 
         {/* Content */}
         <div className="relative z-20 flex items-center justify-center h-full">
           <div className="text-center text-white px-4 max-w-4xl">
+            <div className="w-75 h-40 bg-gradient-to-r from-green-0 to-green-0 rounded-full flex items-center justify-center mx-auto mb-10 shadow-2xl">
+            <img
+              src={rioLogo}
+              alt="Rio Mobile Logo"
+              className="w-full h-full object-cover rounded-full"
+              onError={(e) => {
+                // Fallback to "R" if image fails to load
+                e.target.style.display = "none";
+                e.target.nextElementSibling.style.display = "flex";
+              }}
+            />
+          </div>
             <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
               Professional Repair Services
             </h1>
@@ -286,9 +271,6 @@ function Services() {
         <div className="container mx-auto px-4">
           {/* Header */}
           <div className="text-center mb-16">
-            <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-              <span className="text-black font-bold text-3xl">🔧</span>
-            </div>
             <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent mb-4">
               Our Services
             </h1>

@@ -20,6 +20,10 @@ function Login() {
       email: "madhusha@gmail.com",
       password: "200021302449",
     },
+    {
+      email: "madhusha1@gmail.com",
+      password: "200021302449",
+    },
   ];
 
   const handleChange = (e) => {
