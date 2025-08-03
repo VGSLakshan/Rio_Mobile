@@ -114,7 +114,7 @@ function Services() {
       ],
       pricing: "Starting from Rs. 1,500",
       duration: "10 - 20 minutes per session",
-      warranty: "No medical guarantee, but consultation report provided",
+      
       image: "/images/doctor-channeling.jpg",
       color: "from-teal-500 to-blue-500",
     },

@@ -140,22 +140,7 @@ function HomeMain() {
                   allowFullScreen
                 />
 
-                {/* Complete YouTube UI Hide Overlay */}
-                <div className="absolute inset-0 pointer-events-none z-30">
-                  {/* Full top overlay to hide title, logo, and any UI */}
-                  <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-black via-black/90 to-transparent"></div>
-
-                  {/* Side overlays to hide any side UI elements */}
-                  <div className="absolute top-0 left-0 bottom-0 w-16 bg-gradient-to-r from-black/80 to-transparent"></div>
-                  <div className="absolute top-0 right-0 bottom-0 w-16 bg-gradient-to-l from-black/80 to-transparent"></div>
-
-                  {/* Bottom overlay to hide any controls or branding */}
-                  <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black via-black/90 to-transparent"></div>
-
-                  {/* Center overlay for any remaining UI elements */}
-                  <div className="absolute top-4 right-4 w-20 h-12 bg-black/90 rounded"></div>
-                  <div className="absolute bottom-4 right-4 w-16 h-8 bg-black/90 rounded"></div>
-                </div>
+                
 
                 {/* Loading state overlay */}
                 <div className="absolute inset-0 bg-black/20 pointer-events-none z-25">

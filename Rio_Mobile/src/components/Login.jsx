@@ -11,8 +11,16 @@ function Login() {
   const navigate = useNavigate();
 
   // Admin credentials
-  const ADMIN_EMAIL = "lakshansanchitha2000@gmail.com";
-  const ADMIN_PASSWORD = "200021302449";
+  const ADMIN_CREDENTIALS = [
+    {
+      email: "lakshansanchitha2000@gmail.com",
+      password: "200021302449",
+    },
+    {
+      email: "madhusha@gmail.com",
+      password: "200021302449",
+    },
+  ];
 
   const handleChange = (e) => {
     setFormData({
@@ -32,14 +40,16 @@ function Login() {
     setTimeout(() => {
       console.log("Login attempt:", formData);
 
-      // Check admin credentials
-      if (
-        formData.email === ADMIN_EMAIL &&
-        formData.password === ADMIN_PASSWORD
-      ) {
+      // Check admin credentials against the array
+      const isValidAdmin = ADMIN_CREDENTIALS.some(
+        (admin) =>
+          admin.email === formData.email && admin.password === formData.password
+      );
+
+      if (isValidAdmin) {
         console.log("✅ Admin login successful! Redirecting to dashboard...");
 
-        // Store admin session (optional)
+        // Store admin session
         localStorage.setItem("isAdminLoggedIn", "true");
         localStorage.setItem("adminEmail", formData.email);
 
@@ -135,7 +145,7 @@ function Login() {
                 placeholder="Enter your password"
               />
             </div>
-            
+
             <button
               type="submit"
               disabled={loading}
@@ -151,9 +161,6 @@ function Login() {
               )}
             </button>
           </form>
-
-          
-          
         </div>
       </div>
     </div>
