@@ -1,10 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import rep1 from "../assets/videos/rep1.mp4";
+import rep2 from "../assets/videos/rep2.mp4";
+import rep3 from "../assets/videos/rep3.mp4";
 
 function Services() {
   const [selectedService, setSelectedService] = useState(null);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const videoRef = useRef(null);
+
+  // Array of video sources
+  const videoSources = [rep1, rep2, rep3];
+
+  // Handle video ended event to play next video
+  const handleVideoEnded = () => {
+    setCurrentVideoIndex((prevIndex) =>
+      prevIndex === videoSources.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  // Update video source when currentVideoIndex changes
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.src = videoSources[currentVideoIndex];
+      videoRef.current.load();
+      videoRef.current.play();
+    }
+  }, [currentVideoIndex]);
 
   const services = [
     {
@@ -135,11 +159,103 @@ function Services() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-green-900">
-      {/* Back to Home Link */}
+      {/* Navbar */}
       <Navbar />
       
+      {/* Full Screen Video Hero Section */}
+      <section className="relative h-screen w-full overflow-hidden">
+        {/* Video Background */}
+        <video
+          ref={videoRef}
+          className="absolute top-0 left-0 w-full h-full object-cover z-0"
+          autoPlay
+          muted
+          onEnded={handleVideoEnded}
+          playsInline
+        >
+          <source src={videoSources[currentVideoIndex]} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
 
-      <div className="container mx-auto px-4 py-12">
+        {/* Dark Overlay */}
+        <div className="absolute top-0 left-0 w-full h-full bg-black/50 z-10"></div>
+
+        {/* Content */}
+        <div className="relative z-20 flex items-center justify-center h-full">
+          <div className="text-center text-white px-4 max-w-4xl">
+            <div className="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl">
+              <span className="text-black font-bold text-4xl">🔧</span>
+            </div>
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
+              Professional Repair Services
+            </h1>
+            <p className="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed">
+              Expert mobile device repair with genuine parts, experienced technicians, and comprehensive warranty coverage
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                onClick={() => {
+                  const servicesSection = document.getElementById("services-section");
+                  if (servicesSection) {
+                    servicesSection.scrollIntoView({
+                      behavior: "smooth",
+                      block: "start",
+                    });
+                  }
+                }}
+                className="bg-gradient-to-r from-green-500 to-green-700 text-white px-8 py-4 rounded-full font-semibold text-lg hover:from-green-600 hover:to-green-800 transform hover:scale-105 transition-all duration-300 shadow-2xl"
+              >
+                Explore Services
+              </button>
+              <button
+                onClick={() => {
+                  const phoneNumber = "94764845882";
+                  const message = "Hello Rio Mobile! I need repair service. Can you help me with pricing and appointment?";
+                  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+                  window.open(whatsappUrl, "_blank");
+                }}
+                className="border-2 border-green-500 text-green-400 px-8 py-4 rounded-full font-semibold hover:bg-green-500 hover:text-black transform hover:scale-105 transition-all duration-300"
+              >
+                Get Quote
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+          <div
+            className="animate-bounce cursor-pointer"
+            onClick={() => {
+              const servicesSection = document.getElementById("services-section");
+              if (servicesSection) {
+                servicesSection.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }
+            }}
+          >
+            <svg
+              className="w-6 h-6 text-green-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+              />
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section id="services-section" className="bg-gradient-to-b from-black to-gray-900 py-20">
+        <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
           <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
@@ -389,11 +505,10 @@ function Services() {
             </div>
           </div>
         </div>
-      </div>
+        </div>
+      </section>
       <Footer />
-    </div>
-    
-  );
+    </div>  );
 }
 
 export default Services;
